@@ -5,9 +5,12 @@ import { InView } from 'react-intersection-observer'
 
 const UsersList = () => {
 
+    const per_page = 2
+
     const URI = new URLSearchParams(window.location.search);
 
     const [ state, setState ] = useState({
+        hasMore: true,
         isLoading: true,
         page:  URI.get('page') || 1,
         users: []
@@ -16,16 +19,22 @@ const UsersList = () => {
  
     useEffect(() => {
 
-        fetch('https://reqres.in/api/users?per_page=4&page=' + state.page  )
+        setTimeout(() => {
+
+            fetch('https://reqres.in/api/users?per_page=' + per_page + '&page=' + state.page  )
             .then(res => res.json())
             .then(json => {
                 setState({ 
                     ...state, 
+                    hasMore: (json.total > ( state.page * per_page ) ),
                     isLoading: false, 
                     users: state.users.concat(json.data) 
                 })
             })
             .catch(err => console.log(err))
+
+        }, 1000 )
+
 
     }, [state.page])
 
@@ -44,6 +53,11 @@ const UsersList = () => {
     }
 
     //console.log( state.users )
+
+    if ( state.isLoading ) {
+        return <h1>Loading....</h1>
+    }
+
     
     return (
         <>
@@ -58,11 +72,26 @@ const UsersList = () => {
 
             <br />
 
-            <InView as="div" onChange={(inView, entry) => {
-                if (inView && state.users.length > 0 ) setState({ ...state, page: parseInt(state.page) + 1 })
-                }}>
-                <a href={`?page=${ parseInt(state.page) + 1 }`} className="link" id="load-more">Load more</a>
-            </InView>
+            { state.hasMore && (
+
+                <InView as="div" onChange={(inView, entry) => {
+
+                    if (inView && !state.isLoading ) {
+                        setState({ 
+                            ...state, 
+                            page: parseInt(state.page) + 1 
+                        })
+                    }
+                    
+                    }}>
+
+                    <a href={`?page=${ parseInt(state.page) + 1 }`} className="link" id="load-more">
+                        Load more
+                    </a>
+
+                </InView>
+
+            )}
 
         </>
     )
