@@ -80,7 +80,7 @@ const UsersList = () => {
 
                 <InView as="div" onChange={inView => {
 
-                    if (inView) {
+                    if (inView && !state.isLoading) {
 
                         setTimeout(() => {
                             setState({
