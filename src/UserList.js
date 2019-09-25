@@ -19,7 +19,9 @@ const UsersList = () => {
  
     useEffect(() => {
 
-        fetch('https://reqres.in/api/users?per_page=' + per_page + '&page=' + state.page  )
+        const controller = new AbortController()
+
+        fetch('https://reqres.in/api/users?per_page=' + per_page + '&page=' + state.page, { signal : controller.signal })
         .then(res => res.json())
         .then(json => {
             setState({ 
@@ -30,6 +32,10 @@ const UsersList = () => {
             })
         })
         .catch(err => console.log(err))
+
+        return function cleanup() {
+            controller.abort()
+        }
 
     }, [state.page])
 
@@ -72,10 +78,13 @@ const UsersList = () => {
                 <InView as="div" onChange={ inView => {
 
                     if ( inView ) {
-                        setState({ 
-                            ...state, 
-                            page: parseInt(state.page) + 1 
-                        })
+
+                        setTimeout(() => {
+                            setState({ 
+                                ...state, 
+                                page: parseInt(state.page) + 1 
+                            })
+                        }, 1000)
                     }
                     
                     }}>

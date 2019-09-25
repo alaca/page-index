@@ -10,10 +10,16 @@ const UserProfile = ({ match }) => {
 
     useEffect(() => {
 
-        fetch('https://reqres.in/api/users/' + match.params.id )
-            .then(res => res.json())
-            .then(json => setState({ isLoading: false, user: json.data }))
-            .catch(err => console.log(err))
+        const controller = new AbortController()
+
+        fetch('https://reqres.in/api/users/' + match.params.id, { signal: controller.signal } )
+        .then(res => res.json())
+        .then(json => setState({ isLoading: false, user: json.data }))
+        .catch(err => console.log(err))
+
+        return function cleanup() {
+            controller.abort()
+        }
 
     },[])
 
