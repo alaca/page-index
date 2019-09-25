@@ -3,6 +3,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+h1, h2 {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
 .post {
   border: 1px solid rgb(231, 231, 231);
   padding: 30px;
@@ -18,4 +24,16 @@ body {
 a {
   text-decoration: none;
   color: black;
+}
+
+@media only screen and (max-width: 480px) {
+  body {
+    padding: 20px;
+  }
+
+  .post {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
 }
