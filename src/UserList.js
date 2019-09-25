@@ -19,22 +19,17 @@ const UsersList = () => {
  
     useEffect(() => {
 
-        setTimeout(() => {
-
-            fetch('https://reqres.in/api/users?per_page=' + per_page + '&page=' + state.page  )
-            .then(res => res.json())
-            .then(json => {
-                setState({ 
-                    ...state, 
-                    hasMore: (json.total > ( state.page * per_page ) ),
-                    isLoading: false, 
-                    users: state.users.concat(json.data) 
-                })
+        fetch('https://reqres.in/api/users?per_page=' + per_page + '&page=' + state.page  )
+        .then(res => res.json())
+        .then(json => {
+            setState({ 
+                ...state, 
+                hasMore: (json.total > ( state.page * per_page ) ),
+                isLoading: false, 
+                users: state.users.concat(json.data) 
             })
-            .catch(err => console.log(err))
-
-        }, 1000 )
-
+        })
+        .catch(err => console.log(err))
 
     }, [state.page])
 
@@ -68,15 +63,15 @@ const UsersList = () => {
 
             <h1>Users</h1>
 
-            { state.users.map(user => renderUsers(user))}
+            { state.users.map(user => renderUsers(user)) }
 
             <br />
 
             { state.hasMore && (
 
-                <InView as="div" onChange={(inView, entry) => {
+                <InView as="div" onChange={ inView => {
 
-                    if (inView && !state.isLoading ) {
+                    if ( inView ) {
                         setState({ 
                             ...state, 
                             page: parseInt(state.page) + 1 
@@ -85,7 +80,7 @@ const UsersList = () => {
                     
                     }}>
 
-                    <a href={`?page=${ parseInt(state.page) + 1 }`} className="link" id="load-more">
+                    <a href={`?page=${ parseInt(state.page) + 1 }`} className="link">
                         Load more
                     </a>
 
