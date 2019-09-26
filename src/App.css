@@ -26,6 +26,10 @@ a {
   color: black;
 }
 
+img {
+  min-height: 100px;
+}
+
 @media only screen and (max-width: 480px) {
   body {
     padding: 20px;

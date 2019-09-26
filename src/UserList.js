@@ -5,13 +5,14 @@ import { InView } from 'react-intersection-observer'
 
 const UsersList = () => {
 
-    const per_page = 2
+    const per_page = 4
 
     const URI = new URLSearchParams(window.location.search);
 
     const [state, setState] = useState({
         hasMore: true,
         isLoading: true,
+        hasQueryString: URI.get('page'),
         page: URI.get('page') || 1,
         users: []
     });
@@ -63,11 +64,20 @@ const UsersList = () => {
     }
 
 
+    let title = 'Infinite scroll test app'
+    let description = 'Infinite scroll test app description'
+
+    if (state.hasQueryString) {
+        title += ' - page ' + state.page
+        description += ' - page ' + state.page
+    }
+
+
     return (
         <>
             <Helmet>
-                <title>Infinite scroll test app</title>
-                <meta name="description" content="Infinite scroll test app description" />
+                <title>{title}</title>
+                <meta name="description" content={description} />
             </Helmet>
 
             <h1>Users</h1>
@@ -85,6 +95,7 @@ const UsersList = () => {
                         setTimeout(() => {
                             setState({
                                 ...state,
+                                hasQueryString: false,
                                 page: parseInt(state.page) + 1
                             })
                         }, 1000)
