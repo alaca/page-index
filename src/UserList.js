@@ -67,7 +67,7 @@ const UsersList = () => {
         <>
             <Helmet>
                 <title>Infinite scroll test app</title>
-                <meta name="description" content="Infinite scroll test app description - proof of concept" />
+                <meta name="description" content="Infinite scroll test app description" />
             </Helmet>
 
             <h1>Users</h1>
