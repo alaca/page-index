@@ -6,29 +6,29 @@ const UserProfile = ({ match }) => {
     const [state, setState] = useState({
         isLoading: true,
         user: null
-    })
+    });
 
     useEffect(() => {
 
-        const controller = new AbortController()
+        const controller = new AbortController();
 
         fetch('https://reqres.in/api/users/' + match.params.id, { signal: controller.signal })
             .then(res => res.json())
             .then(json => setState({ isLoading: false, user: json.data }))
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
 
         return () => {
             controller.abort()
         }
 
-    }, [match.params.id])
+    }, [match.params.id]);
 
 
     if (state.isLoading) {
         return <h1>Loading....</h1>
     }
 
-    const { avatar, first_name, last_name, email } = state.user
+    const { avatar, first_name, last_name, email } = state.user;
 
     return (
         <>
@@ -43,6 +43,6 @@ const UserProfile = ({ match }) => {
         </>
     )
 
-}
+};
 
 export default UserProfile
