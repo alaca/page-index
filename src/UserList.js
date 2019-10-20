@@ -5,7 +5,7 @@ import { InView } from 'react-intersection-observer'
 
 const UsersList = () => {
 
-    const per_page = 4
+    const per_page = 4;
 
     const URI = new URLSearchParams(window.location.search);
 
@@ -20,7 +20,7 @@ const UsersList = () => {
 
     useEffect(() => {
 
-        const controller = new AbortController()
+        const controller = new AbortController();
 
         fetch('https://reqres.in/api/users?per_page=' + per_page + '&page=' + state.page, { signal: controller.signal })
             .then(res => res.json())
@@ -35,13 +35,13 @@ const UsersList = () => {
                 }
                 )
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
 
         return () => {
             controller.abort()
         }
 
-    }, [state.page])
+    }, [state.page]);
 
 
     const renderUsers = user => {
@@ -55,7 +55,7 @@ const UsersList = () => {
             </div>
         )
 
-    }
+    };
 
     //console.log( state.users )
 
@@ -64,11 +64,11 @@ const UsersList = () => {
     }
 
 
-    let title = 'Infinite scroll test app'
-    let description = 'Infinite scroll test app description'
+    let title = 'Infinite scroll test app';
+    let description = 'Infinite scroll test app description';
 
     if (state.hasQueryString) {
-        title += ' - page ' + state.page
+        title += ' - page ' + state.page;
         description += ' - page ' + state.page
     }
 
@@ -114,6 +114,6 @@ const UsersList = () => {
         </>
     )
 
-}
+};
 
 export default UsersList
